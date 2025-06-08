@@ -1,7 +1,42 @@
 $settings = "$HOME\.project-launcher\settings.txt"
 
-if ($args.Count -ge 2 -and $args[0] -eq "--settings") {
+if ($args.Count -ge 1 -and ($args -contains "--help" -or $args -contains "-h")) {
+    Write-Host @'
+project-launcher
+
+ABOUT
+
+project-launcher searches through a list of scripts and launches one of them.
+It uses an interactive prompt to browse results and select the script to launch.
+The configuration file format is a text file with one path per line. By default,
+a global configuration is loaded from $HOME\.project-launcher\settings.txt.
+
+USAGE
+
+Output help:
+project-launcher --help
+project-launcher -h
+
+Launch with global configuration:
+project-launcher
+
+Launch with specified configuration:
+project-launcher --settings .\some\path\to\settings.txt
+
+INTERACTIVE MODE
+
+Controls:
+Escape - cancel the search and exit
+Up/Down arrows - change selection
+Enter - launch the current selection
+
+Type to filter the results.
+'@
+
+    exit 0
+} elseif ($args.Count -ge 2 -and $args[0] -eq "--settings") {
     $settings = $args[1]
+} else {
 }
 
 if (-not (Test-Path $settings)) {
